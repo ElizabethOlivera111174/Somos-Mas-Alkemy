@@ -1,0 +1,887 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>OngProject</name>
+    </assembly>
+    <members>
+        <member name="M:OngProject.Controllers.AuthController.Get">
+            <summary>
+            Endpoint para obtener los datos almacenados del usuario logueado
+            </summary>
+            <remarks>
+            <para>
+            Formato de peticion: https:// nombreDelServidor /auth/me
+            </para>
+            </remarks>
+            <returns>
+            FirstName , LastName ,Email ,Photo, RoleId 
+            </returns>
+            <response code="200">Solicitud concretada con exito</response>
+            <response code="400">No pudo retornar los datos del usuario</response> 
+            <response code="401">Credenciales incorrectas</response>
+        </member>
+        <member name="M:OngProject.Controllers.AuthController.Register(OngProject.Core.DTOs.UserDTOs.UserInsertDTO)">
+            <summary>
+            Endpoint para el registro de un usuario en el sistema
+            </summary>
+            <remarks>
+            Formato de peticion: <br></br>
+            {
+                <br></br>
+                "FirstName*": "string",<br></br>
+                "LastName*": "string",<br></br>
+                "Email*": "string",<br></br>
+                "Password*": "string"<br></br>
+            }
+            <br></br>
+            Ejemplo de solicitud: <br></br>
+            {
+                <br></br>
+                "FirstName*": "Alkemy",<br></br>
+                "LastName*": "Aceleracion",<br></br>
+                "Email*": "user@example.com",<br></br>
+                "Password*": "alkemy1234"<br></br>
+            }
+            </remarks>
+            <param name="UserInsertDTO">DTO para la creacion de un nuevo Miembro</param>
+            <returns>
+                Devuelve el token del usuario en caso de ser creado o Response indicando el error
+            </returns>
+            <response code="200">El usuario se inserto con exito</response>
+            <response code="400">No se ha podido procesar la solicitud con estos datos</response>
+            <response code="401">Credenciales incorrectas</response>
+        </member>
+        <member name="M:OngProject.Controllers.AuthController.Login(OngProject.Core.DTOs.LoginDTO)">
+            <summary>
+            Endpoint para el login de un usuario en el sistema
+            </summary>
+            <remarks>
+            Formato de peticion: <br></br>
+            {
+                <br></br>
+                "Email": "string",<br></br>
+                "Password": "string"<br></br>
+            }
+            <br></br>
+            Ejemplo de solicitud: <br></br>
+            {
+                <br></br>
+                "Email": "user@example.com",<br></br>
+                "Password": "alkemy1234"<br></br>
+            }
+            </remarks>
+            <param name="LoginDTO">DTO para la creacion de un nuevo Miembro</param>
+            <returns>
+                Devuelve el token del usuario en caso de que las credenciales sean correctas o Response indicando el error
+            </returns>
+            <response code="200">El usuario se logueo con exito</response>
+            <response code="400">No se ha podido procesar la solicitud con estos datos</response>
+            <response code="401">Credenciales incorrectas</response>
+        </member>
+        <member name="M:OngProject.Controllers.CategoryController.GetAll(System.Int32)">
+            <summary>
+            Endpoint para obtener todas las entradas de Categories. Se integra una paginacion para optimizar
+            y hacer mas performante la llamada. Se debe ser ADMINISTRADOR
+            </summary>
+            <remarks>
+            <para>
+            Formato de peticion: https:// nombreDelServidor /Category ?page =pagina que se consulta
+            </para>
+            <para>
+            Ejemplo de peticion: https://localhost:44353/Category?page=1
+            </para>
+            </remarks>
+            <param name="page">
+            Pagina que se pide a la Db. Si la pagina = 0, entonces regresa por defecto pagina: 1
+            </param>
+            <returns>
+            Entradas de miembros, con 10 entradas por pagina
+            </returns>
+            <response code="200">Solicitud concretada con exito</response>
+            <response code="401">Credenciales no validas</response> 
+        </member>
+        <member name="M:OngProject.Controllers.CategoryController.GetById(System.Int32)">
+            <summary>
+            Endpoint para la obtención de una Category. Se debe ser ADMINISTRADOR
+            </summary>
+            <remarks>
+            <para>
+            Formato de solicitud: https:// nombreDelServidor /Category ?id=categoryaBuscar
+            </para>
+            <para>
+            Ejemplo de solicitud: https://localhost:44353/Category?id=1
+            </para>
+            </remarks>
+            <param name="id">Id de la Category a buscar, se recibe por solicitud</param>
+            <returns>
+            
+            </returns>
+            <response code="200">Se ha eliminado la Category correctamente</response>
+            <response code="401">Credenciales invalidas</response> 
+        </member>
+        <member name="M:OngProject.Controllers.CategoryController.Post(OngProject.Core.DTOs.CategoryDTO)">
+            <summary>
+            Endpoint para la creacion de un nueva Category. Se debe ser ADMINISTRADOR
+            </summary>
+            <remarks>
+            Formato de peticion: <br></br>
+            {
+                <br></br>
+                "name": "string",<br></br>
+                "description": "string",<br></br>
+                "image": "IFormFile",<br></br>
+            }
+            <br></br>
+            Ejemplo de solicitud: <br></br>
+            {
+                <br></br>
+                "name": "CategoryPrueba",<br></br>
+                "image": "https://cohorte-septiembre-91ddd87b.s3.amazonaws.com/Category_2510202114:44:13BS_Revenant_Grace.png",<br></br>
+                "description": "DescripcionPrueba",<br></br>
+            }
+            </remarks>
+            <param name="categoryDTO">DTO para la creacion de una nueva Category</param>
+            <response code="200">LA  Category se inserto con exito</response>
+            <response code="400">No se ha podido procesar la solicitud con estos datos</response>
+            <response code="401">Credenciales incorrectas</response>
+        </member>
+        <member name="M:OngProject.Controllers.CategoryController.Update(System.Int32,OngProject.Core.DTOs.UpdateCategoryDTO)">
+            <summary>
+            Endpoint para la modificacion de Categories. Se debe ser ADMINISTRADOR
+            </summary>
+            <remarks>
+            Formato de solicitud: <br></br>
+            {
+                <br></br>
+                "id": 0,<br></br>
+                "name": "string",<br></br>
+                "image": "IFormFile",<br></br>
+                "description": "string"<br></br>
+            }
+            <br></br>
+            Ejemplo de solicitud: <br></br>
+            {
+                <br></br>
+                "name": "ModificacionCategory",<br></br>
+                "image": "https://cohorte-septiembre-91ddd87b.s3.amazonaws.com/Category_2510202114:44:13BS_Revenant_Grace.png",<br></br>
+                "description": "DescripcionPrueba",<br></br>
+            }
+            </remarks>
+            <param name="updateCategoryDTO">DTO para la modificacion de Category</param>
+            <returns></returns>
+            <response code="200">Solicitud ejecutada correctamente</response>
+            <response code="400">No se ha podido completar la solicitud</response>
+            <response code="401">Credenciales invalidas</response> 
+        </member>
+        <member name="M:OngProject.Controllers.CategoryController.Delete(System.Int32)">
+            <summary>
+            Endpoint para eliminacion de baja logica de una Category. Se debe ser ADMINISTRADOR
+            </summary>
+            <remarks>
+            <para>
+            Formato de solicitud: https:// nombreDelServidor /Category ?id=categoryAborrar
+            </para>
+            <para>
+            Ejemplo de solicitud: https://localhost:44353/Category?id=1
+            </para>
+            </remarks>
+            <param name="id">Id de la Category a borrarse, se recibe por solicitud</param>
+            <returns>
+            
+            </returns>
+            <response code="200">Se ha eliminado la Category correctamente</response>
+            <response code="401">Credenciales invalidas</response> 
+        </member>
+        <member name="M:OngProject.Controllers.CommentsController.GetAll(System.Int32)">
+            <summary>
+            Endpoint para obtener todas las entradas de Comentarios. Se integra una paginacion para optimizar
+            y hacer mas performante la llamada. Se debe ser ADMINISTRADOR
+            </summary>
+            <remarks>
+            <para>
+            Formato de peticion: https:// nombreDelServidor /coments ?page =pagina que se consulta
+            </para>
+            <para>
+            Ejemplo de peticion: https://localhost:44353/coments?page=1
+            </para>
+            </remarks>
+            <param name="page">
+            Pagina que se pide a la Db. Si la pagina = 0, entonces regresa por defecto pagina: 1
+            </param>
+            <returns>
+            Entradas de comentarios, con 10 entradas por pagina
+            </returns>
+            <response code="200">Solicitud concretada con exito</response>
+            <response code="401">Credenciales no validas</response> 
+        </member>
+        <member name="M:OngProject.Controllers.CommentsController.Get(System.Int32)">
+            <summary>
+            Endpoint para obtener una entrada de Comentarios determinada. Es publica
+            </summary>
+            <returns>
+            Entradas de un comentario.
+            </returns>
+            <response code="200">Solicitud concretada con exito</response>
+            <response code="401">Credenciales no validas</response> 
+        </member>
+        <member name="M:OngProject.Controllers.CommentsController.Insert(OngProject.Core.DTOs.NewCommentsDTO)">
+            <summary>
+            Endpoint para la creacion de un nuevo Comentario. Es publico
+            </summary>
+            <remarks>
+            Formato de peticion: <br></br>
+            {
+                <br></br>
+                "body": "string",<br></br>
+                "userId": 0,<br></br>
+                "newId": 0      
+             
+            }
+            <br></br>
+            Ejemplo de solicitud: <br></br>
+            {
+                <br></br>
+                "body": "ejemplo Texto",<br></br>
+                "userId": 0,<br></br>
+                "newId": 0   
+                
+            }
+            </remarks>
+            <param name="newCommentsDTO">DTO para la creacion de un nuevo comentario</param>
+            <returns>
+            Falta formato para integrar clase Result
+            </returns>
+            <response code="200">El usuario se inserto con exito</response>
+            <response code="400">No se ha podido procesar la solicitud con estos datos</response>
+            <response code="401">Credenciales incorrectas</response>
+        </member>
+        <member name="M:OngProject.Controllers.CommentsController.Delete(System.Int32)">
+            <summary>
+            Endpoint para eliminacion de baja logica de un Comentario. Se debe ser ADMINISTRADOR o USUARIO
+            </summary>
+            <remarks>
+            <para>
+            Formato de solicitud: https:// nombreDelServidor /comments ?id=miembroAborrar
+            </para>
+            <para>
+            Ejemplo de solicitud: https://localhost:44353/comments?id=1
+            </para>
+            </remarks>
+            <param name="id">Id del comentario a borrarse, se recibe por solicitud</param>
+            <returns>
+            
+            </returns>
+            <response code="200">Se ha eliminado al comentario correctamente</response>
+            <response code="401">Credenciales invalidas</response> 
+        </member>
+        <member name="M:OngProject.Controllers.CommentsController.Put(System.Int32,OngProject.Core.DTOs.CommentUpdateDTO)">
+            <summary>
+            Endpoint para la modificacion de comentario. Se debe ser ADMINISTRADOR o USUARIO
+            </summary>
+            <remarks>
+            Formato de peticion: <br></br>
+            {
+                <br></br>
+                "body": "string",<br></br>
+                "userId": 0,<br></br>
+                "newId": 0      
+             
+            }
+            <br></br>
+            Ejemplo de solicitud: <br></br>
+            {
+                <br></br>
+                "body": "ejemplo Texto",<br></br>
+                "userId": 0,<br></br>
+                "newId": 0   
+                
+            }
+            </remarks>
+            <param name="CommentUpdateDTO">DTO para la modificacion de Miembros</param> 
+            <param name="id">DTO para la modificacion de Miembros</param>        
+            <returns></returns>
+            <response code="200">Solicitud ejecutada correctamente</response>
+            <response code="400">No se ha podido completar la solicitud</response>
+            <response code="401">Credenciales invalidas</response> 
+        </member>
+        <member name="M:OngProject.Controllers.MemberController.GetAll(System.Int32)">
+            <summary>
+            Endpoint para obtener todas las entradas de Miembros. Se integra una paginacion para optimizar
+            y hacer mas performante la llamada. Se debe ser ADMINISTRADOR
+            </summary>
+            <remarks>
+            <para>
+            Formato de peticion: https:// nombreDelServidor /member ?page =pagina que se consulta
+            </para>
+            <para>
+            Ejemplo de peticion: https://localhost:44353/member?page=1
+            </para>
+            </remarks>
+            <param name="page">
+            Pagina que se pide a la Db. Si la pagina = 0, entonces regresa por defecto pagina: 1
+            </param>
+            <returns>
+            Entradas de miembros, con 10 entradas por pagina
+            </returns>
+            <response code="200">Solicitud concretada con exito</response>
+            <response code="401">Credenciales no validas</response> 
+        </member>
+        <member name="M:OngProject.Controllers.MemberController.Post(OngProject.Core.DTOs.MemberInsertDTO)">
+            <summary>
+            Endpoint para la creacion de un nuevo Miembro. Se debe ser ADMINISTRADOR
+            </summary>
+            <remarks>
+            Formato de peticion: <br></br>
+            {
+                <br></br>
+                "name": "string",<br></br>
+                "facebookUrl": "string",<br></br>
+                "instagramUrl": "string",<br></br>
+                "linkedinUrl": "string",<br></br>
+                "image": "string",<br></br>
+                "description": "string"<br></br>
+            }
+            <br></br>
+            Ejemplo de solicitud: <br></br>
+            {
+                <br></br>
+                "name": "MiembroPrueba",<br></br>
+                "facebookUrl": "https://www.facebook.com/MiembroPrueba",<br></br>
+                "instagramUrl": "https://www.instagram.com/MimebroPrueba",<br></br>
+                "linkedinUrl": "https://www.instagram.com/MiembroPrueba",<br></br>
+                "image": "https://cohorte-septiembre-91ddd87b.s3.amazonaws.com/Member_2510202114:44:13BS_Revenant_Grace.png",<br></br>
+                "description": "DescripcionPrueba",<br></br>
+            }
+            </remarks>
+            <param name="membersDTO">DTO para la creacion de un nuevo Miembro</param>
+            <returns>
+            Falta formato para integrar clase Result
+            </returns>
+            <response code="200">El usuario se inserto con exito</response>
+            <response code="400">No se ha podido procesar la solicitud con estos datos</response>
+            <response code="401">Credenciales incorrectas</response>
+        </member>
+        <member name="M:OngProject.Controllers.MemberController.Delete(System.Int32)">
+            <summary>
+            Endpoint para eliminacion de baja logica de un Miembro. Se debe ser ADMINISTRADOR
+            </summary>
+            <remarks>
+            <para>
+            Formato de solicitud: https:// nombreDelServidor /member ?id=miembroAborrar
+            </para>
+            <para>
+            Ejemplo de solicitud: https://localhost:44353/member?id=1
+            </para>
+            </remarks>
+            <param name="id">Id del Miembro a borrarse, se recibe por solicitud</param>
+            <returns>
+            
+            </returns>
+            <response code="200">Se ha eliminado al Miembro correctamente</response>
+            <response code="401">Credenciales invalidas</response> 
+        </member>
+        <member name="M:OngProject.Controllers.MemberController.Update(OngProject.Core.DTOs.MemberUpdateDTO)">
+            <summary>
+            Endpoint para la modificacion de Miembros. Se debe ser ADMINISTRADOR
+            </summary>
+            <remarks>
+            Formato de solicitud: <br></br>
+            {
+                <br></br>
+                "id": 0,<br></br>
+                "name": "string",<br></br>
+                "facebookUrl": "string",<br></br>
+                "instagramUrl": "string",<br></br>
+                "linkedinUrl": "string",<br></br>
+                "image": "string",<br></br>
+                "description": "string"<br></br>
+            }
+            <br></br>
+            Ejemplo de solicitud: <br></br>
+            {
+                <br></br>
+                "name": "ModificacionMiembro",<br></br>
+                "facebookUrl": "https://www.facebook.com/ModificacionMiembro",<br></br>
+                "instagramUrl": "https://www.instagram.com/ModificacionMiembro",<br></br>
+                "linkedinUrl": "https://www.instagram.com/ModificacionMiembro",<br></br>
+                "image": "https://cohorte-septiembre-91ddd87b.s3.amazonaws.com/Member_2510202114:44:13BS_Revenant_Grace.png",<br></br>
+                "description": "DescripcionPrueba",<br></br>
+            }
+            </remarks>
+            <param name="memberUpdateDTO">DTO para la modificacion de Miembros</param>
+            <returns></returns>
+            <response code="200">Solicitud ejecutada correctamente</response>
+            <response code="400">No se ha podido completar la solicitud</response>
+            <response code="401">Credenciales invalidas</response> 
+        </member>
+        <member name="M:OngProject.Controllers.NewsController.GetById(System.Int32)">
+            <summary>
+            Endpoint para consultar una Novedad por su id.
+            </summary>
+            <remarks>
+            <para>
+            Formato de solicitud: https:// nombreDelServidor /News ?id=IdNovedadAConsultar
+            </para>
+            <para>
+            Ejemplo de solicitud: https://localhost:44353/News?id=1
+            </para>
+            </remarks>
+            <param name="id">Id de la Novedad a consultar, se recibe por parametro</param>
+            <returns>
+            El resultado de la peticion
+            </returns>
+            <response code="200">Solicitud concretada con exito</response>
+            <response code="401">Credenciales invalidas</response>
+            <response code="400">No se ha podido procesar la solicitud con estos datos</response>
+        </member>
+        <member name="M:OngProject.Controllers.NewsController.GetAll(System.Int32)">
+            <summary>
+            Endpoint para obtener todas las Novedades. Se integra una paginacion para optimizar
+            y hacer mas performante la llamada.
+            </summary>
+            <remarks>
+            <para>
+            Formato de peticion: https:// nombreDelServidor /News ?page =pagina que se consulta
+            </para>
+            <para>
+            Ejemplo de peticion: https://localhost:44353/News?page=1
+            </para>
+            </remarks>
+            <param name="page">
+            Pagina que se pide a la Db. Si la pagina = 0, entonces regresa por defecto pagina: 1
+            </param>
+            <returns>
+            Entradas de novedades, con 10 entradas por pagina
+            </returns>
+            <response code="200">Solicitud concretada con exito</response>
+            <response code="401">Credenciales no validas</response>
+            <response code="404">Novedad no encontrada</response>
+        </member>
+        <member name="M:OngProject.Controllers.NewsController.Insert(OngProject.Core.DTOs.NewsInsertDTO)">
+            <summary>
+            Endpoint para la creacion de una nueva Novedad. Se debe ser ADMINISTRADOR
+            </summary>
+            <remarks>
+            Formato de peticion: <br></br>
+            {
+                <br></br>
+                "name": "string",<br></br>
+                "content": "string",<br></br>
+                "image": "IFormFile",<br></br>
+                "categoriaId": "int"<br></br>
+            }
+            <br></br>
+            Ejemplo de solicitud: <br></br>
+            {
+                <br></br>
+                "name": "NovedadPrueba",<br></br>
+                "content": "contenidoNovedad",<br></br>
+                "image": "https://cohorte-septiembre-91ddd87b.s3.amazonaws.com/NuevaImagen.jpg",<br></br>
+                "categoriaId": "Numero de Id de la categoria a la que pertenece",<br></br>
+            }
+            </remarks>
+            <param name="newsInsertDTO">DTO para la creacion de una nueva Novedad</param>
+            <returns>
+            El resultado de la peticion
+            </returns>
+            <response code="200">La Novedad se inserto con exito</response>
+            <response code="400">No se ha podido procesar la solicitud con estos datos</response>
+            <response code="401">Credenciales incorrectas</response>
+        </member>
+        <member name="M:OngProject.Controllers.NewsController.Delete(System.Int32)">
+            <summary>
+            Endpoint para eliminacion de baja logica de una Novedad. Se debe ser ADMINISTRADOR
+            </summary>
+            <remarks>
+            <para>
+            Formato de solicitud: https:// nombreDelServidor /News ?id=IdNovedadAborrar
+            </para>
+            <para>
+            Ejemplo de solicitud: https://localhost:44353/News?id=1
+            </para>
+            </remarks>
+            <param name="id">Id de la Novedad a borrar, se recibe por parametro</param>
+            <returns>
+            El resultado de la peticion
+            </returns>
+            <response code="200">Se ha eliminado la Novedad correctamente</response>
+            <response code="401">Credenciales invalidas</response>
+            <response code="400">No se ha podido procesar la solicitud con estos datos</response>
+        </member>
+        <member name="M:OngProject.Controllers.NewsController.Update(OngProject.Core.DTOs.NewsUpdateDTO,System.Int32)">
+            <summary>
+            Endpoint para la modificacion de una nueva Novedad. Se debe ser ADMINISTRADOR
+            </summary>
+            <remarks>
+            Formato de peticion: <br></br>
+            {
+                <br></br>
+                "name": "string",<br></br>
+                "content": "string",<br></br>
+                "image": "IFormFile",<br></br>
+                "categoriaId": "int"<br></br>
+            }
+            <br></br>
+            Ejemplo de solicitud: <br></br>
+            {
+                <br></br>
+                "name": "nombreNuevo",<br></br>
+                "content": "contenidoNuevo",<br></br>
+                "image": "https://cohorte-septiembre-91ddd87b.s3.amazonaws.com/NuevaImagen.jpg",<br></br>
+                "categoriaId": "Numero de Id de la categoria a la que pertenece",<br></br>
+            }
+            </remarks>
+            <param name="id">Id de la Novedad a modificar</param>
+            <param name="newsUpdateDTO">DTO para la modificacion de una nueva Novedad</param>
+            <returns>
+            El resultado de la peticion
+            </returns>
+            <response code="200">La Novedad se inserto con exito</response>
+            <response code="400">No se ha podido procesar la solicitud con estos datos</response>
+            <response code="401">Credenciales incorrectas</response>
+        </member>
+        <member name="M:OngProject.Controllers.SlidesController.Get">
+            <summary>
+            Endpoint para obtener todas las entradas de Sidles.
+            Se debe ser ADMINISTRADOR
+            </summary>
+        </member>
+        <member name="M:OngProject.Controllers.SlidesController.GetPublic">
+            <summary>
+            Endpoint para la creacion de un nuevo Sidle. Se debe ser ADMINISTRADOR
+            </summary>
+        </member>
+        <member name="M:OngProject.Controllers.SlidesController.Insert(OngProject.Core.DTOs.SlidesCreateDTO)">
+            <summary>
+            Endpoint para la creacion de un nuevo Sidle. Se debe ser ADMINISTRADOR
+            </summary>
+        </member>
+        <member name="M:OngProject.Controllers.SlidesController.UpdateSlide(System.Int32,OngProject.Core.DTOs.SlidesDTOs.UpdateSlideDTO)">
+            <summary>
+            Este metodo permite modificar un Slide de la base de datos
+            </summary>
+            <remarks>Ejemplo: 
+            {
+            "imageUrl": "url modificada de la imagen",
+            "text": "slide1 a modificar",
+            "order": 14,
+            "organizationId": 2
+            }
+            
+            </remarks>
+            <param name="updateSlideDTO"></param>
+            <returns>
+            <para>
+            Los nuevos datos del Slide + un mensaje de modificacion correcta
+            </para>
+            <para>Caso contrario, BadRequest para cuando existe un slide con el mismo Id</para>
+            </returns> 
+        </member>
+        <member name="M:OngProject.Controllers.TestimonialsController.GetAll(System.Int32)">
+            <summary>
+            Endpoint para obtener todas las entradas de Testimonials. Se integra una paginacion para optimizar
+            y hacer mas performante la llamada. Se debe estar logueado
+            </summary>
+            <remarks>
+            <para>
+            Formato de peticion: https:// nombreDelServidor /testimonials ?page =pagina que se consulta
+            </para>
+            <para>
+            Ejemplo de peticion: https://localhost:44353/testimonials?page=1
+            </para>
+            </remarks>
+            <param name="page">
+            Pagina que se pide a la Db. Si la pagina = 0, entonces regresa por defecto pagina: 1
+            </param>
+            <returns>
+            Entradas de testimonios, con 10 entradas por pagina
+            </returns>
+            <response code="200">Solicitud concretada con exito</response>
+            <response code="401">Credenciales no validas</response> 
+            <response code="204">Pagina sin contenido</response> 
+        </member>
+        <member name="M:OngProject.Controllers.TestimonialsController.Insert(OngProject.Core.DTOs.TestimonialsCreateDTO)">
+            <summary>
+            Endpoint para la creacion de un nuevo testimonio. Es necesario ser ADMINISTRADOR
+            </summary>
+            <remarks>
+            Formato de peticion: <br></br>
+            {
+                <br></br>
+                "name": "string",<br></br>
+                "content": "string",<br></br>
+                "image": File      
+             
+            }
+            <br></br>
+            Ejemplo de solicitud: <br></br>
+            {
+                <br></br>
+                "name": "Testimonial prueba name",<br></br>
+                "content": "Testimonial prueba contenido",<br></br>
+                "image": File   
+                
+            }
+            </remarks>
+            <param name="testimonialDTO">DTO para la creacion de un nuevo testimonio</param>
+            <response code="200">El testimonio se inserto con exito</response>
+            <response code="400">No se ha podido procesar la solicitud con estos datos</response>
+            <response code="401">Credenciales incorrectas</response>
+        </member>
+        <member name="M:OngProject.Controllers.TestimonialsController.Delete(System.Int32)">
+            <summary>
+            Endpoint para eliminacion de baja logica de un testimonio. Se debe ser ADMINISTRADOR
+            </summary>
+            <remarks>
+            <para>
+            Formato de solicitud: https:// nombreDelServidor /testimonials ?id=testimonialAborrar
+            </para>
+            <para>
+            Ejemplo de solicitud: https://localhost:44353/testimonials?id=1
+            </para>
+            </remarks>
+            <param name="id">Id del testimonials a borrarse, se recibe por solicitud</param>
+            <returns>
+            
+            </returns>
+            <response code="200">Se ha eliminado al testimonial correctamente</response>
+            <response code="401">Credenciales invalidas</response> 
+            <response code="404">No se ha encontrado el testimonial</response> 
+        </member>
+        <member name="M:OngProject.Controllers.TestimonialsController.Update(System.Int32,OngProject.Core.DTOs.TestimonialsUpdateDTO)">
+            <summary>
+            Endpoint para la modificacion de testimonials. Se debe ser ADMINISTRADOR
+            </summary>
+            <remarks>
+            Formato de solicitud: <br></br>
+            {
+                <br></br>
+                "id": 0,<br></br>
+                "name": "string",<br></br>
+                "content": "string",<br></br>
+                "image": File,<br></br>
+            }
+            <br></br>
+            Ejemplo de solicitud: <br></br>
+            {
+                <br></br>
+                "name": "ModificacionTestimonio",<br></br>
+                "content": "Nuevo contenido",<br></br>
+                "image": File,<br></br>
+            }
+            </remarks>
+            <param name="testimonialsUpdateDTO">DTO para la modificacion de testimonios</param>
+            <param name="id">Id del testimonial que se quiere modificar</param>
+            <returns></returns>
+            <response code="200">Solicitud ejecutada correctamente</response>
+            <response code="401">Credenciales invalidas</response> 
+        </member>
+        <member name="P:OngProject.Core.DTOs.CategoryDTO.Name">
+            <summary>
+            Requerido: Nombre de la nueva Category
+            </summary>
+        </member>
+        <member name="P:OngProject.Core.DTOs.CategoryDTO.Description">
+            <summary>
+            Descripcion de la nueva Category
+            </summary>
+        </member>
+        <member name="P:OngProject.Core.DTOs.CategoryDTO.Image">
+            <summary>
+            Imagen de la nueva Category. Solo se aceptan formatos:
+            .jpg , .jpng , .png
+            </summary>
+        </member>
+        <member name="P:OngProject.Core.DTOs.UpdateCategoryDTO.Name">
+            <summary>
+            Name a modificar de Category
+            </summary>
+        </member>
+        <member name="P:OngProject.Core.DTOs.UpdateCategoryDTO.Description">
+            <summary>
+            Description a modificar de Category
+            </summary>
+        </member>
+        <member name="P:OngProject.Core.DTOs.UpdateCategoryDTO.Image">
+            <summary>
+            Imagen a modificar de la Category. Solo se aceptan formatos:
+            <br></br>
+            .jpg , .jpng , .png
+            </summary>
+        </member>
+        <member name="P:OngProject.Core.DTOs.CommentsDTO.Body">
+            <summary>
+            Requerido: comentario
+            </summary>
+        </member>
+        <member name="P:OngProject.Core.DTOs.CommentUpdateDTO.UserId">
+            <summary>
+            Id del usuario a modificar
+            </summary>
+        </member>
+        <member name="P:OngProject.Core.DTOs.CommentUpdateDTO.NewId">
+            <summary>
+            Id de la Noticia a modificar
+            </summary>
+        </member>
+        <member name="P:OngProject.Core.DTOs.CommentUpdateDTO.Body">
+            <summary>
+            Comentario a modificar
+            </summary>
+        </member>
+        <member name="P:OngProject.Core.DTOs.MemberInsertDTO.Name">
+            <summary>
+            Requerido: Nombre del nuevo miembro
+            </summary>
+        </member>
+        <member name="P:OngProject.Core.DTOs.MemberInsertDTO.FacebookUrl">
+            <summary>
+            Url del Facebook del nuevo miembro
+            </summary>
+        </member>
+        <member name="P:OngProject.Core.DTOs.MemberInsertDTO.InstagramUrl">
+            <summary>
+            Url del Instagram del nuevo miembro
+            </summary>
+        </member>
+        <member name="P:OngProject.Core.DTOs.MemberInsertDTO.LinkedinUrl">
+            <summary>
+            Url del Linkdn del nuevo miembro
+            </summary>
+        </member>
+        <member name="P:OngProject.Core.DTOs.MemberInsertDTO.Image">
+            <summary>
+            Imagen del nuevo miembro. Solo se aceptan formatos:
+            .jpg , .jpng , .png
+            </summary>
+        </member>
+        <member name="P:OngProject.Core.DTOs.MemberInsertDTO.Description">
+            <summary>
+            Descripcion del nuevo miembro
+            </summary>
+        </member>
+        <member name="P:OngProject.Core.DTOs.MemberUpdateDTO.Id">
+            <summary>
+            Id del usuario a modificar
+            </summary>
+        </member>
+        <member name="P:OngProject.Core.DTOs.MemberUpdateDTO.Name">
+            <summary>
+            Nombre a modificar
+            </summary>
+        </member>
+        <member name="P:OngProject.Core.DTOs.MemberUpdateDTO.FacebookUrl">
+            <summary>
+            Url de Facebook a modificar
+            </summary>
+        </member>
+        <member name="P:OngProject.Core.DTOs.MemberUpdateDTO.InstagramUrl">
+            <summary>
+            Url de Instagram a modificar
+            </summary>
+        </member>
+        <member name="P:OngProject.Core.DTOs.MemberUpdateDTO.LinkedinUrl">
+            <summary>
+            Url de LinkedIn a modificar
+            </summary>
+        </member>
+        <member name="P:OngProject.Core.DTOs.MemberUpdateDTO.Image">
+            <summary>
+            Imagen a modificar del miembro. Solo se aceptan formatos:
+            <br></br>
+            .jpg , .jpng , .png
+            </summary>
+        </member>
+        <member name="P:OngProject.Core.DTOs.MemberUpdateDTO.Description">
+            <summary>
+            Descripcion del miembro a modificar
+            </summary>
+        </member>
+        <member name="P:OngProject.Core.DTOs.NewCommentsDTO.Body">
+            <summary>
+            Comantario a crear
+            </summary>
+        </member>
+        <member name="P:OngProject.Core.DTOs.NewCommentsDTO.UserId">
+            <summary>
+            Id del usuario
+            </summary>
+        </member>
+        <member name="P:OngProject.Core.DTOs.NewCommentsDTO.NewId">
+            <summary>
+            Id de la Noticia a modificar
+            </summary>
+        </member>
+        <member name="P:OngProject.Core.Entities.EntityBase.IsDeleted">
+            <summary>
+            IsDeleted para borrado de baja logica, donde: 
+            true = borrado
+            false = Activo
+            </summary> 
+        </member>
+        <member name="P:OngProject.Core.Entities.EntityBase.CreatedAt">
+            <summary>
+            Para indicar fechas de modificaciones en al Db. 
+            </summary> 
+        </member>
+        <member name="P:OngProject.Core.Helper.Pagination.PaginationDTO`1.CurrentPage">
+            <summary>
+            Pagina que se esta visualizando
+            </summary>
+        </member>
+        <member name="P:OngProject.Core.Helper.Pagination.PaginationDTO`1.TotalItems">
+            <summary>
+            Numero total de entradas que hay en la Db
+            </summary>
+        </member>
+        <member name="P:OngProject.Core.Helper.Pagination.PaginationDTO`1.TotalPages">
+            <summary>
+            Numero total de paginas en Db. Cambia con respecto a la cantidad de 
+            elementos por pagina que se piden (por default, =10)
+            </summary>
+        </member>
+        <member name="P:OngProject.Core.Helper.Pagination.PaginationDTO`1.PrevPage">
+            <summary>
+            Url con la pagina previa
+            </summary>
+        </member>
+        <member name="P:OngProject.Core.Helper.Pagination.PaginationDTO`1.NextPage">
+            <summary>
+            Url con la pagina siguiente
+            </summary>
+        </member>
+        <member name="P:OngProject.Core.Helper.Pagination.PaginationDTO`1.Items">
+            <summary>
+            Lista de elementos por pagina
+            </summary>
+        </member>
+        <member name="M:OngProject.Infrastructure.Repositories.BaseRepository`1.EntityExists(System.Int32)">
+            <summary>
+            Si la entidad existe y no ha sido borrada regresa un bool. 
+            Si no esta registrado el Id, o ha sido borrada con baja logica, regresa null.
+            </summary>
+            <param name="id"></param>
+            <returns></returns> 
+        </member>
+        <member name="M:OngProject.Infrastructure.Repositories.BaseRepository`1.FindByCondition(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}},System.Linq.Expressions.Expression{System.Func{`0,System.Object}}[])">
+            <summary>
+            Metodo para realizar una busqueda por medio de una expresion LINQ
+            </summary>
+            <remarks>
+            <para>Ejemplo:
+            var request= _unitOfWork.(repositorioDeLaEntidad).FindByCondition(x=> x.campo del objeto de la Db == Campo contra el que quiero comparar);</para>
+            <para>Cuando se quiere agregar una entidad ligada por una FK, se debe de incluir despues de la frase, con una coma</para>
+            <para>Ejemplo: .FindByCondition(query LINQ, y=> y.EntidadVinculadaPorunaFK)</para>
+            <para> Ejemplo concreto:
+            var request= _unitOfWork.UsersRepository.FindByCondition(x=> x.Email == email, y=> y.Role);</para>
+            <para> Esto me va a traer un IEnumerable de User, y en el campo Role va a traer el Rol asignado a ese Usuario.
+            De ahi solamente restaria aplicar logica para hacerlo lista, o para lo que necesiten</para>
+            
+            </remarks>
+            <returns>
+            IEnumerable de la entidad que se este ocupando, filtrada. Pueden agregarse mas propiedades. 
+            Por defecto trae solo las que IsDeleted==false
+            </returns> 
+        </member>
+    </members>
+</doc>
